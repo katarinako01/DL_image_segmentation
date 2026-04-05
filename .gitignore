@@ -205,3 +205,23 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Data - too large for git
+data/
+*.jpg
+*.png
+*.zip
+
+# Model checkpoints
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# Jupyter / Colab
+.ipynb_checkpoints/
+
+# Logs and experiment tracking
+logs/
+runs/
+wandb/
