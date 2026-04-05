@@ -7,6 +7,9 @@ To create an image segmentation model, which classifies pixels into 3 or more cl
 Evaluate accuracy, precision, recall, and F1 on 100 unseen OpenImages images.
 Additionally: benchmark against pretrained Segment Anything Model (SAM).
 
+## Structure
+There are two notebooks - `image_segmentation_data_prep.ipynb` dedicated for data exploration (class selection and validation, etc.) and data preparation (sampling with the selected classes, downloading images and instance masks, creation of dense masks, etc.) and `image_segmentation_training_eval.ipynb`, which is dedicated for model training and evaluation.
+
 ## Dataset: OpenImages
 
 ### More on the dataset and version choice:
