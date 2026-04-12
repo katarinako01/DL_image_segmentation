@@ -9,8 +9,8 @@ Additionally: benchmark against pretrained segmentation model, such as Segment A
 
 | Item | Its purpose |
 |----------|---------|
-| notebook `image_segmentation_data_prep.ipynb` | Class exploration, sampling, downloading images/masks, dense mask creation |
-| notebook `image_segmentation_training_eval.ipynb` | Model training, evaluation, SAM benchmark |
+| `image_segmentation_data_prep.ipynb` | Class exploration, sampling, downloading images/masks, dense mask creation |
+| `image_segmentation_training_eval.ipynb` | Model training, evaluation, SAM benchmark |
 | `architecture_inference.py` | Standalone inference script with model architecture |
 | `test_images/` | Sample urban images for testing and demonstration |
 | `requirements.txt` | Python dependencies |
