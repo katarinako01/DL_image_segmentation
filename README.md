@@ -9,8 +9,8 @@ Additionally: benchmark against pretrained Segment Anything Model (SAM).
 
 | Notebook | Its purpose |
 |----------|---------|
-| `01_data_preparation.ipynb` | Class exploration, sampling, downloading images/masks, dense mask creation |
-| `02_model_training.ipynb` | Model training, evaluation, SAM benchmark |
+| `image_segmentation_data_prep.ipynb` | Class exploration, sampling, downloading images/masks, dense mask creation |
+| `image_segmentation_training_eval.ipynb` | Model training, evaluation, SAM benchmark |
 
 ## Dataset: OpenImages
 
@@ -108,7 +108,7 @@ Custom U-Net with:
 | Traffic light | 0.444 | 0.927 | 0.600 | 0.429 |
 | Skyscraper | 0.318 | 0.941 | 0.475 | 0.312 |
 
-**Comment regarding metrics:** High recall (0.92) with lower precision (0.45) could be partially attributable to incomplete ground truth annotations in OpenImages, considering that the model correctly segments objects that were not labeled.
+**Comment regarding metrics:** High recall with lower precision could be partially attributable to incomplete ground truth annotations in OpenImages, considering that the model correctly segments objects that were not labeled. More on annotation inconsistencies in OpenImages in this Towards Data Science article: https://towardsdatascience.com/i-performed-error-analysis-on-open-images-and-now-i-have-trust-issues-89080e03ba09/ 
 
 ## SAM (Segment Anything Model) comparison
 
@@ -116,12 +116,14 @@ Custom U-Net with:
 |---|-----------|-------------|
 | Inference time | 0.27s - 0.33s | 313s - 320s |
 | Output | 6 semantic classes | 80-90 instance masks |
-| Class labels | ✓ | ✗ |
-| Speedup | **950x faster** | — |
+| Class labels | Yes | No |
+| Speedup | **approx 950x faster** | — |
 
 SAM produces instance masks without semantic labels. SAM achieves much cleaner boundary detail, this task-specific model provides direct class predictions at a fraction of the computational cost, which is more suitable for real-time applications.
 
 ## Inference / model usage
+
+### Install dependencies
 
 ```bash
 # install dependencies
@@ -131,27 +133,30 @@ pip install -r requirements.txt
 ### Model weights
 
 Weights not included due to size. To use pretrained weights:
-1. Download from https://drive.google.com/file/d/1kkUF_0pURXze-1QKRJFwJUW2Bd-tRDcO/view?usp=sharing
+1. Download from [Google Drive](https://drive.google.com/file/d/1kkUF_0pURXze-1QKRJFwJUW2Bd-tRDcO/view?usp=sharing)
 2. Or retrain using the notebooks
 
-To load, run:
-```python
-checkpoint = torch.load("best_model_v2.pt", map_location="cpu", weights_only=False)
-model = UNetResNet34(num_classes=6, pretrained=False)
-model.load_state_dict(checkpoint['model_state_dict'])
-model.eval()
-```
-after downloading weights, run:
+### Running inference
 
+**Command line:**
 ```bash
 # basic usage
-python architecture_inference.py --image test_images/test_1.jpg
+python architecture_inference.py --image test_images/test_1.jpg --checkpoint best_model_v2.pt
 
-# specify checkpoint and device
+# specify device
 python architecture_inference.py --image photo.jpg --checkpoint best_model_v2.pt --device cuda
 
 # save output instead of displaying
-python architecture_inference.py --image photo.jpg --output result.png
+python architecture_inference.py --image photo.jpg --checkpoint best_model_v2.pt --output result.png
+```
+
+**In Python/Jupyter:**
+```python
+from architecture_inference import load_model, predict, visualize
+
+model = load_model("best_model_v2.pt")
+pred, img = predict(model, "photo.jpg")
+visualize(img, pred)
 ```
 
 ### Arguments
