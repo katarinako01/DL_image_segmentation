@@ -2,15 +2,19 @@
 
 ## Task description
 To create an image segmentation model, which classifies pixels into 3 or more classes.
-Evaluate accuracy, precision, recall, and F1 on 100 unseen OpenImages images.
-Additionally: benchmark against pretrained Segment Anything Model (SAM).
+Evaluate accuracy, precision, recall and F1 on 100 unseen OpenImages images.
+Additionally: benchmark against pretrained segmentation model, such as Segment Anything Model (SAM).
 
 ## Structure
 
-| Notebook | Its purpose |
+| Item | Its purpose |
 |----------|---------|
-| `image_segmentation_data_prep.ipynb` | Class exploration, sampling, downloading images/masks, dense mask creation |
-| `image_segmentation_training_eval.ipynb` | Model training, evaluation, SAM benchmark |
+| notebook `image_segmentation_data_prep.ipynb` | Class exploration, sampling, downloading images/masks, dense mask creation |
+| notebook `image_segmentation_training_eval.ipynb` | Model training, evaluation, SAM benchmark |
+| `architecture_inference.py` | Standalone inference script with model architecture |
+| `test_images/` | Sample urban images for testing and demonstration |
+| `requirements.txt` | Python dependencies |
+| `README.md` | Project documentation |
 
 ## Dataset: OpenImages
 
