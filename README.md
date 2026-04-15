@@ -171,3 +171,20 @@ visualize(img, pred)
 | `--checkpoint` | `best_model_v2.pt` | Path to model weights |
 | `--device` | auto-detect | `cuda` or `cpu` |
 | `--output` | None | Save path (displays if not set) |
+
+## References
+
+**Papers:**
+- [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/abs/1505.04597) (Ronneberger et al., 2015)
+- [Deep Residual Learning for Image Recognition (ResNet)](https://arxiv.org/abs/1512.03385) (He et al., 2016)
+- [Segment Anything Model (SAM)](https://arxiv.org/abs/2304.02643) (Kirillov et al., 2023)
+- [Generalised Dice Overlap as a Deep Learning Loss Function](https://arxiv.org/abs/1707.03237) (Sudre et al., 2017)
+
+**Dataset:**
+- [OpenImages V5/V7](https://storage.googleapis.com/openimages/web/factsfigures_v7.html)
+- [OpenImages Annotation Error Analysis](https://towardsdatascience.com/i-performed-error-analysis-on-open-images-and-now-i-have-trust-issues-89080e03ba09/)
+
+**Implementation references:**
+- [U-Net Biomedical Image Segmentation](https://github.com/sauravmishra1710/U-Net---Biomedical-Image-Segmentation) — PyTorch U-Net implementation
+- [SMP Encoder Comparison](https://smp.readthedocs.io/en/latest/encoders.html)
+- [PyTorch ImageNet Normalization](https://pytorch.org/vision/stable/models.html)
