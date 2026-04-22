@@ -114,16 +114,47 @@ Custom U-Net with:
 
 **Comment regarding metrics:** High recall with lower precision could be partially attributable to incomplete ground truth annotations in OpenImages, considering that the model correctly segments objects that were not labeled. More on annotation inconsistencies in OpenImages in this Towards Data Science article: https://towardsdatascience.com/i-performed-error-analysis-on-open-images-and-now-i-have-trust-issues-89080e03ba09/ 
 
-## SAM (Segment Anything Model) comparison
+## Model comparison & saturation analysis
 
-| | This model | SAM (ViT-B) |
-|---|-----------|-------------|
-| Inference time | 0.27s - 0.33s | 313s - 320s |
-| Output | 6 semantic classes | 80-90 instance masks |
-| Class labels | Yes | No |
-| Speedup | **approx 950x faster** | — |
+To assess whether this model is approaching performance saturation, it was compared against two external baselines, i.e. SegFormer and CLIPSeg.
 
-SAM produces instance masks without semantic labels. SAM achieves much cleaner boundary detail, this task-specific model provides direct class predictions at a fraction of the computational cost, which is more suitable for real-time applications.
+### Comparison models
+
+**SegFormer** (Xie et al., NeurIPS 2021): A transformer-based state-of-the-art segmentation model pretrained on Cityscapes. Represents the best supervised approach currently available (that is specific to traffic scenes).
+
+**CLIPSeg** (Lüddecke & Ecker, CVPR 2022): A zero-shot segmentation model that uses only text prompts ("person", "car", "bus", etc.) instead of pixel-level annotations. Built on CLIP's vision-language pretraining on 400 million image-text pairs.
+
+### Results
+
+#### SegFormer comparison (4 classes, excluding Skyscraper*)
+
+| Model | Macro Precision | Macro Recall | Macro IoU |
+|-------|-----------------|--------------|-----------|
+| This model (U-Net ResNet34) | 0.484 | 0.911 | 0.465 |
+| SegFormer | 0.662 | 0.744 | 0.485 |
+
+*Skyscraper was excluded because mapping it to Cityscapes' broader "building" class resulted in unfair penalisation of SegFormer predictions.
+
+#### CLIPSeg comparison (5 classes)
+
+| Model | Macro IoU |
+|-------|-----------|
+| This model (U-Net ResNet34) | 0.433 |
+| CLIPSeg (zero-shot) | 0.517 |
+
+### Insights / findings
+
+- All three have somewhat similar overall performance. All achieve IoU in the 0.43–0.52 range, despite fundamental differences in architecture and training approach.
+
+- Shared failure pattern. All models struggle with the Person class (~0.25 IoU) and perform best on Bus (~0.68–0.77 IoU). This consistency across approaches suggests dataset-level challenges/issues rather than model-specific limitations (though they still are present, just in a way that, for example, changing architecture will give marginal improvement).
+
+- Precision-recall trade-offs. This model shows high recall (0.911) with lower precision, indicating a tendency to over-segment. SegFormer and CLIPSeg are more conservative with higher precision but lower recall.
+
+- Text-based approach is competitive. CLIPSeg achieves the highest IoU using only text prompts as supervision, showing that explicit pixel annotations might not even be necessary when strong vision-language pretraining is available.
+
+### Interpretation
+
+The convergence of three fundamentally different approaches to similar accuracy levels suggests that performance is constrained by annotation quality rather than model architecture. Further architectural improvements (such as attention mechanisms or deeper decoders) were tested but did not yield meaningful gains, reinforcing this conclusion.
 
 ## Inference / model usage
 
