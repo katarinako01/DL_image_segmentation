@@ -10,7 +10,8 @@ Additionally: benchmark against pretrained segmentation model, such as Segment A
 | Item | Its purpose |
 |----------|---------|
 | `image_segmentation_data_prep.ipynb` | Class exploration, sampling, downloading images/masks, dense mask creation |
-| `image_segmentation_training_eval.ipynb` | Model training, evaluation, SAM benchmark |
+| `image_segmentation_training_eval.ipynb` | Model training, evaluation |
+| `SegFormer_CLIP_sota_comparison.ipynb` | Exploration of model's saturation point by comparison to SegFormer and CLIPSeg |
 | `architecture_inference.py` | Standalone inference script with model architecture |
 | `test_images/` | Sample urban images for testing and demonstration |
 | `requirements.txt` | Python dependencies |
